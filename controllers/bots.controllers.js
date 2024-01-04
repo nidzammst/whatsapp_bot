@@ -1,4 +1,4 @@
-const { Client, MessageMedia } = require('whatsapp-web.js');
+const { Client, MessageMedia, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 const axios = require('axios');
@@ -7,7 +7,9 @@ const WhatsappUser = require('../models/whatsappUserModel')
 const Chat = require('../models/chatModel')
 
 const botResponse = asyncHandler(async (req,res)=>{
-	const client = new Client();
+	const client = new Client({
+		authStrategy: new LocalAuth()
+	});
 
 	client.on('qr', qr => {
 		qrcode.generate(qr, {small: true});
